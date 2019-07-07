@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity
 
     ListView alarmList;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
