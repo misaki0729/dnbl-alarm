@@ -134,7 +134,11 @@ public class AlarmEditActivity extends AppCompatActivity {
     private void init(Intent intent) {
         alarmId = intent.getLongExtra(ALARM_ID, -1);
 
-        if (alarmId == -1) return;
+        if (alarmId == -1) {
+            uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            alarm_music_button.setText(RingtoneUtil.getRingtoneTitle(uri));
+            return;
+        }
 
         Alarm alarm = new AlarmTableUtil().getRecord(alarmId);
         timePicker.setCurrentHour(alarm.hour);
@@ -216,6 +220,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 break;
             case R.id.setting_alarm_music:
                 Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
                 startActivityForResult(intent, REQUEST_CODE_RINGTONE_PICKER);
                 break;
             default:
