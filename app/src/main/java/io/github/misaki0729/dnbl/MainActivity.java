@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import io.github.misaki0729.dnbl.activity.AlarmAddActivity;
+import io.github.misaki0729.dnbl.activity.AlarmEditActivity;
 import io.github.misaki0729.dnbl.adapter.AlarmListItemAdapter;
 import io.github.misaki0729.dnbl.entity.AlarmListItem;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("MainActivity", String.valueOf(item.getAlarmId()));
 
-        Intent intent = new Intent(MainActivity.this, AlarmAddActivity.class);
-        intent.putExtra(AlarmAddActivity.ALARM_ID, item.getAlarmId());
+        Intent intent = new Intent(MainActivity.this, AlarmEditActivity.class);
+        intent.putExtra(AlarmEditActivity.ALARM_ID, item.getAlarmId());
         startActivity(intent);
     }
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm_add:
-                Intent intent = new Intent(MainActivity.this, AlarmAddActivity.class);
+                Intent intent = new Intent(MainActivity.this, AlarmEditActivity.class);
                 startActivity(intent);
 
                 break;

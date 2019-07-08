@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.AlarmAddActivity"
+        <activity android:name=".activity.AlarmEditActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -15,12 +15,11 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.misaki0729.dnbl.MainActivity;
 import io.github.misaki0729.dnbl.R;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
-public class AlarmAddActivity extends AppCompatActivity {
+public class AlarmEditActivity extends AppCompatActivity {
 
     public static final String ALARM_ID = "alarm_id";
 
@@ -46,7 +45,7 @@ public class AlarmAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_add);
+        setContentView(R.layout.activity_alarm_edit);
 
         ButterKnife.bind(this);
     }
@@ -74,7 +73,7 @@ public class AlarmAddActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.alarm_add, menu);
+        getMenuInflater().inflate(R.menu.alarm_edit, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,8 +83,7 @@ public class AlarmAddActivity extends AppCompatActivity {
             case R.id.action_alarm_add_done:
                 AlarmTableUtil util = new AlarmTableUtil();
 
-                Alarm alarm = new Alarm();
-                if (alarmId != -1) alarm = util.getRecord(alarmId);
+                Alarm alarm = alarmId == -1 ? new Alarm() : util.getRecord(alarmId);
 
                 String description = description_edit_text.getText().toString();
                 String dow = Arrays.toString(settingDow);

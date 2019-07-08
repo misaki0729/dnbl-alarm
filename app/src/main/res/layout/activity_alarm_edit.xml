@@ -9,7 +9,7 @@
     android:paddingLeft="0dp"
     android:paddingTop="0dp"
     android:paddingRight="0dp"
-    tools:context=".activity.AlarmAddActivity">
+    tools:context=".activity.AlarmEditActivity">
 
     <TimePicker
         android:id="@+id/alarm_time_picker"
