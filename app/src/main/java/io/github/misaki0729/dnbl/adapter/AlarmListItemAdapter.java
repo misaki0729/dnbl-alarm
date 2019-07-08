@@ -22,7 +22,8 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
 
     class ViewHolder {
         ImageView isEnabled;
-        TextView time;
+        TextView hour;
+        TextView minute;
         TextView description;
     }
 
@@ -40,7 +41,8 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
             convertView = inflater.inflate(R.layout.alarm_list_item, parent, false);
             holder = new ViewHolder();
             holder.description = (TextView) convertView.findViewById(R.id.alarm_description);
-            holder.time = (TextView) convertView.findViewById(R.id.alarm_time);
+            holder.hour = (TextView) convertView.findViewById(R.id.alarm_hour);
+            holder.minute = (TextView) convertView.findViewById(R.id.alarm_minute);
             holder.isEnabled = (ImageView) convertView.findViewById(R.id.alarm_is_enabled);
             convertView.setTag(holder);
         } else {
@@ -48,7 +50,8 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
         }
 
         data = getItem(position);
-        holder.time.setText(String.valueOf(data.getTime()));
+        holder.hour.setText(String.format("%02d", data.getHour()));
+        holder.minute.setText(String.format("%02d", data.getMinute()));
         holder.description.setText(data.getDescription());
 
         return convertView;

@@ -7,13 +7,15 @@ import io.github.misaki0729.dnbl.entity.db.Alarm;
 
 public class AlarmListItem {
     private long alarmId;
-    private long time;
+    private int hour;
+    private int minute;
     private String description;
     private boolean isEnabled;
 
-    public AlarmListItem(long alarmId, long time, String description, boolean isEnabled) {
+    public AlarmListItem(long alarmId, int hour, int minute, String description, boolean isEnabled) {
         this.alarmId = alarmId;
-        this.time = time;
+        this.hour = hour;
+        this.minute = minute;
         this.description = description;
         this.isEnabled = isEnabled;
     }
@@ -25,11 +27,18 @@ public class AlarmListItem {
         this.alarmId = alarmId;
     }
 
-    public long getTime() {
-        return time;
+    public int getHour() {
+        return hour;
     }
-    public void setTime(long time) {
-        this.time = time;
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public String getDescription() {
@@ -50,7 +59,7 @@ public class AlarmListItem {
         List<AlarmListItem> list = new ArrayList<>();
 
         for (Alarm item: alarms) {
-            AlarmListItem alarmListItem = new AlarmListItem(item.getAlarm_id(), item.time, item.description, item.is_enable);
+            AlarmListItem alarmListItem = new AlarmListItem(item.getAlarm_id(), item.hour, item.minute, item.description, item.is_enable);
             list.add(alarmListItem);
         }
 

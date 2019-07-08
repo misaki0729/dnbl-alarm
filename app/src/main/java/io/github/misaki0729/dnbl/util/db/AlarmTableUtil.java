@@ -53,7 +53,8 @@ public class AlarmTableUtil {
 
         ActiveAndroid.beginTransaction();
         try {
-            insertRecord.time = item.time;
+            insertRecord.hour = item.hour;
+            insertRecord.minute = item.minute;
             insertRecord.description = item.description;
             insertRecord.is_enable = item.is_enable;
 
