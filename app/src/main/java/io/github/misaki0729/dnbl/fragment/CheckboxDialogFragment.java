@@ -9,6 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
+import io.github.misaki0729.dnbl.event.CheckDialogEvent;
+
 public class CheckboxDialogFragment {
 
     public static class Dialog extends DialogFragment {
@@ -36,7 +40,8 @@ public class CheckboxDialogFragment {
             builder.setTitle(title)
                     .setMultiChoiceItems(checkItemList, checkedFrag,
                             (dialogInterface, which, flag) -> {
-                                // 項目選択時の処理
+                                checkedFrag[which] = flag;
+                                EventBus.getDefault().post(new CheckDialogEvent(checkedFrag));
                             }
                     )
                     .setPositiveButton("OK", clickListener)

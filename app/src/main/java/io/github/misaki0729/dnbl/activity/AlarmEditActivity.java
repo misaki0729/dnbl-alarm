@@ -10,8 +10,13 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 
@@ -20,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.misaki0729.dnbl.R;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
+import io.github.misaki0729.dnbl.event.CheckDialogEvent;
 import io.github.misaki0729.dnbl.fragment.CheckboxDialogFragment;
 import io.github.misaki0729.dnbl.fragment.DialogFragmentController;
 import io.github.misaki0729.dnbl.util.DateUtil;
@@ -45,8 +51,31 @@ public class AlarmEditActivity extends AppCompatActivity {
     MaterialButton delay_alarm_time_button;
 
     private long alarmId = -1;
-    private int settingDow[] = {0, 1, 2, 3, 4, 5, 6};
+    private int settingDow[] = {1, 1, 1, 1, 1, 1, 1};
     private int settingDelayAlarmTime = 10;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveCheckedList(CheckDialogEvent e) {
+        String dow = "";
+        String[] dowList = DateUtil.getDow();
+
+        int count = 0;
+        for (int i = 0; i < e.getCheckedList().length; i++) {
+            boolean isChecked = e.getCheckedList()[i];
+            if (isChecked) {
+                count++;
+                dow = dow + dowList[i];
+                settingDow[i] = 1;
+            } else {
+                settingDow[i] = -1;
+            }
+        }
+
+        if (count == dowList.length) dow = "毎日";
+        else if (count == 0) dow = "なし";
+
+        alarm_dow_button.setText(dow);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +92,13 @@ public class AlarmEditActivity extends AppCompatActivity {
         init(getIntent());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        EventBus.getDefault().register(this);
+    }
+
     private void init(Intent intent) {
         alarmId = intent.getLongExtra(ALARM_ID, -1);
 
@@ -73,6 +109,27 @@ public class AlarmEditActivity extends AppCompatActivity {
         timePicker.setCurrentMinute(alarm.minute);
 
         if (alarm.description != null) description_edit_text.setText(alarm.description);
+
+        String dow = alarm.dow;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            settingDow = mapper.readValue(dow, int[].class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int count = 0;
+        dow = "";
+        String[] dowList = DateUtil.getDow();
+        for (int i = 0; i < settingDow.length; i++) {
+            if (settingDow[i] == 1) {
+                count++;
+                dow = dow + dowList[i];
+            }
+        }
+        if (count == dowList.length) dow = "毎日";
+        else if (count == 0) dow = "なし";
+        alarm_dow_button.setText(dow);
 
         //TODO: あとで追加
     }
