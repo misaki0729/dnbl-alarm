@@ -45,7 +45,18 @@ public class DialogFragmentController {
                 checkboxDialog.show(activity.getSupportFragmentManager(), "checkboxDialog");
                 break;
             case TYPE_DELAY_TIME_SELECT:
+                title = args.getString(SelectDialogFragment.Dialog.TITLE, "");
 
+                CharSequence[] selectItemList = args.getCharSequenceArray(SelectDialogFragment.Dialog.SELECT_LIST);
+                int selectItem = args.getInt(SelectDialogFragment.Dialog.SELECT_ITEM, 0);
+
+                if (title.isEmpty() || selectItemList == null) {
+                    throw new IllegalStateException(MessageFormat.format("You should input title {0} or itemList", title));
+                }
+
+                SelectDialogFragment.Dialog selectDialog = new SelectDialogFragment.Dialog();
+                selectDialog.setArguments(args);
+                selectDialog.show(activity.getSupportFragmentManager(), "selectDialog");
                 break;
             default:
                 break;

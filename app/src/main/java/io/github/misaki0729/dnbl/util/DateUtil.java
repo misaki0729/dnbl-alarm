@@ -20,4 +20,12 @@ public class DateUtil {
     public static String getDow(int dowCode) {
         return dow[dowCode];
     }
+
+    public static String getDelayTimeText(int delayTime) {
+        String ret;
+        if (delayTime == 60) ret = "1時間前";
+        else ret = String.valueOf(delayTime) + "分前";
+
+        return ret;
+    }
 }

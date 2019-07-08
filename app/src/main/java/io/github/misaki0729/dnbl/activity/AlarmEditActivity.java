@@ -28,6 +28,7 @@ import io.github.misaki0729.dnbl.entity.db.Alarm;
 import io.github.misaki0729.dnbl.event.CheckDialogEvent;
 import io.github.misaki0729.dnbl.fragment.CheckboxDialogFragment;
 import io.github.misaki0729.dnbl.fragment.DialogFragmentController;
+import io.github.misaki0729.dnbl.fragment.SelectDialogFragment;
 import io.github.misaki0729.dnbl.util.DateUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
@@ -53,6 +54,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     private long alarmId = -1;
     private int settingDow[] = {1, 1, 1, 1, 1, 1, 1};
     private int settingDelayAlarmTime = 10;
+    private int settingDelayAlarmTimeList[] = {5, 10, 15, 20, 25, 30, 60};
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void recieveCheckedList(CheckDialogEvent e) {
@@ -147,6 +149,20 @@ public class AlarmEditActivity extends AppCompatActivity {
         new DialogFragmentController(this, DialogFragmentController.TYPE_DOW_CHECK, args, clickListener).show();
     }
 
+    private void displaySelectDelayTimeDialog() {
+        String selectList[] = new String[settingDelayAlarmTimeList.length];
+        for (int i = 0; i < settingDelayAlarmTimeList.length; i++)
+            selectList[i] = DateUtil.getDelayTimeText(settingDelayAlarmTimeList[i]);
+
+
+        Bundle args = new Bundle();
+        args.putString(SelectDialogFragment.Dialog.TITLE, "時間選択");
+        args.putCharSequenceArray(SelectDialogFragment.Dialog.SELECT_LIST, selectList);
+        args.putInt(SelectDialogFragment.Dialog.SELECT_ITEM, 0);
+
+        new DialogFragmentController(this, DialogFragmentController.TYPE_DELAY_TIME_SELECT, args, null).show();
+    }
+
     private boolean[] getCheckedDow() {
         boolean[] checkedDow = new boolean[settingDow.length];
         for (int i = 0; i < settingDow.length; i++)
@@ -162,6 +178,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 displayCheckDowDialog();
                 break;
             case R.id.setting_delay_alarm_time:
+                displaySelectDelayTimeDialog();
                 break;
             case R.id.setting_alarm_music:
                 break;
