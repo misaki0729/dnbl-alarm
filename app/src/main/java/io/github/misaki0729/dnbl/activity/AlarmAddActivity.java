@@ -22,6 +22,8 @@ import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
 public class AlarmAddActivity extends AppCompatActivity {
 
+    public static final String ALARM_ID = "alarm_id";
+
     @BindView(R.id.alarm_time_picker)
     TimePicker timePicker;
 
@@ -37,6 +39,7 @@ public class AlarmAddActivity extends AppCompatActivity {
     @BindView(R.id.setting_delay_alarm_time)
     MaterialButton delay_alarm_time_button;
 
+    private long alarmId = -1;
     private int settingDow[] = {0, 1, 2, 3, 4, 5, 6};
     private int settingDelayAlarmTime = 10;
 
@@ -49,6 +52,27 @@ public class AlarmAddActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        init(getIntent());
+    }
+
+    private void init(Intent intent) {
+        alarmId = intent.getLongExtra(ALARM_ID, -1);
+
+        if (alarmId == -1) return;
+
+        Alarm alarm = new AlarmTableUtil().getRecord(alarmId);
+        timePicker.setCurrentHour(alarm.hour);
+        timePicker.setCurrentMinute(alarm.minute);
+
+        if (alarm.description != null) description_edit_text.setText(alarm.description);
+
+        //TODO: あとで追加
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.alarm_add, menu);
         return super.onCreateOptionsMenu(menu);
@@ -58,20 +82,24 @@ public class AlarmAddActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm_add_done:
-                Alarm addAlarm = new Alarm();
+                AlarmTableUtil util = new AlarmTableUtil();
+
+                Alarm alarm = new Alarm();
+                if (alarmId != -1) alarm = util.getRecord(alarmId);
 
                 String description = description_edit_text.getText().toString();
                 String dow = Arrays.toString(settingDow);
 
-                addAlarm.is_enable = true;
-                addAlarm.description = description;
-                addAlarm.alarm_delay_time = settingDelayAlarmTime;
-                addAlarm.alarm_music_id_normal = 0;
-                addAlarm.hour = timePicker.getCurrentHour();
-                addAlarm.minute = timePicker.getCurrentMinute();
-                addAlarm.dow = dow;
+                alarm.is_enable = true;
+                alarm.description = description;
+                alarm.alarm_delay_time = settingDelayAlarmTime;
+                alarm.alarm_music_id_normal = 0;
+                alarm.hour = timePicker.getCurrentHour();
+                alarm.minute = timePicker.getCurrentMinute();
+                alarm.dow = dow;
 
-                new AlarmTableUtil().insertRecord(addAlarm);
+                if (alarmId != -1) util.updateRecord(alarm);
+                else util.insertRecord(alarm);
 
                 finish();
 

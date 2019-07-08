@@ -54,8 +54,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListView listView = (ListView) parent;
+        AlarmListItem item = (AlarmListItem) listView.getAdapter().getItem(position);
 
+        Log.d("MainActivity", String.valueOf(item.getAlarmId()));
+
+        Intent intent = new Intent(MainActivity.this, AlarmAddActivity.class);
+        intent.putExtra(AlarmAddActivity.ALARM_ID, item.getAlarmId());
+        startActivity(intent);
     }
 
     @Override
