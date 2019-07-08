@@ -24,6 +24,7 @@ public class DateUtil {
     public static String getDelayTimeText(int delayTime) {
         String ret;
         if (delayTime == 60) ret = "1時間前";
+        else if (delayTime == 0) ret = "なし";
         else ret = String.valueOf(delayTime) + "分前";
 
         return ret;

@@ -8,6 +8,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
+import io.github.misaki0729.dnbl.event.SelectDialogEvent;
+
 public class SelectDialogFragment {
 
     public static class Dialog extends DialogFragment {
@@ -33,7 +37,7 @@ public class SelectDialogFragment {
             builder.setTitle(title)
                     .setSingleChoiceItems(selectList, selectItem,
                             (dialogInterface, which) -> {
-                                // 選択時の処理
+                                EventBus.getDefault().post(new SelectDialogEvent(which));
                             }
                         )
                         .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())

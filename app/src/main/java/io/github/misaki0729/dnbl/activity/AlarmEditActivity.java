@@ -26,6 +26,7 @@ import butterknife.OnClick;
 import io.github.misaki0729.dnbl.R;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
 import io.github.misaki0729.dnbl.event.CheckDialogEvent;
+import io.github.misaki0729.dnbl.event.SelectDialogEvent;
 import io.github.misaki0729.dnbl.fragment.CheckboxDialogFragment;
 import io.github.misaki0729.dnbl.fragment.DialogFragmentController;
 import io.github.misaki0729.dnbl.fragment.SelectDialogFragment;
@@ -53,8 +54,8 @@ public class AlarmEditActivity extends AppCompatActivity {
 
     private long alarmId = -1;
     private int settingDow[] = {1, 1, 1, 1, 1, 1, 1};
-    private int settingDelayAlarmTime = 10;
-    private int settingDelayAlarmTimeList[] = {5, 10, 15, 20, 25, 30, 60};
+    private int settingDelayAlarmTime = 0;
+    private int settingDelayAlarmTimeList[] = {0, 5, 10, 15, 20, 25, 30, 60};
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void recieveCheckedList(CheckDialogEvent e) {
@@ -77,6 +78,12 @@ public class AlarmEditActivity extends AppCompatActivity {
         else if (count == 0) dow = "なし";
 
         alarm_dow_button.setText(dow);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveSelectDelayTime(SelectDialogEvent e) {
+        settingDelayAlarmTime = e.getSelectItem();
+        delay_alarm_time_button.setText(DateUtil.getDelayTimeText(settingDelayAlarmTimeList[settingDelayAlarmTime]));
     }
 
     @Override
@@ -133,7 +140,8 @@ public class AlarmEditActivity extends AppCompatActivity {
         else if (count == 0) dow = "なし";
         alarm_dow_button.setText(dow);
 
-        //TODO: あとで追加
+        settingDelayAlarmTime = alarm.alarm_delay_time;
+        delay_alarm_time_button.setText(DateUtil.getDelayTimeText(settingDelayAlarmTimeList[settingDelayAlarmTime]));
     }
 
     private void displayCheckDowDialog() {
@@ -158,7 +166,7 @@ public class AlarmEditActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putString(SelectDialogFragment.Dialog.TITLE, "時間選択");
         args.putCharSequenceArray(SelectDialogFragment.Dialog.SELECT_LIST, selectList);
-        args.putInt(SelectDialogFragment.Dialog.SELECT_ITEM, 0);
+        args.putInt(SelectDialogFragment.Dialog.SELECT_ITEM, settingDelayAlarmTime);
 
         new DialogFragmentController(this, DialogFragmentController.TYPE_DELAY_TIME_SELECT, args, null).show();
     }
