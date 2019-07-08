@@ -17,6 +17,7 @@ public class Alarm extends Model {
     public static final String ALARM_DELAY_TIME = "alarm_delay_time";
     public static final String ALARM_MUSIC_ID_NORMAL = "alarm_music_id_normal";
     public static final String ALARM_MUSIC_ID_DELAY = "alarm_music_id_delay";
+    public static final String ALARM_SET_TIME_MILLIS = "alarm_set_time_millis";
 
     @Column(name = HOUR, notNull = true)
     public int hour;
@@ -44,6 +45,9 @@ public class Alarm extends Model {
 
     @Column(name = ALARM_MUSIC_ID_DELAY)
     public int alarm_music_id_delay;
+
+    @Column(name = ALARM_SET_TIME_MILLIS)
+    public long alarm_set_time_millis;
 
     public Alarm() { super(); }
 

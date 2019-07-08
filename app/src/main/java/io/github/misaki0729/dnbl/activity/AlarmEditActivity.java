@@ -252,10 +252,14 @@ public class AlarmEditActivity extends AppCompatActivity {
                 alarm.hour = timePicker.getCurrentHour();
                 alarm.minute = timePicker.getCurrentMinute();
                 alarm.dow = dow;
+                alarm.alarm_set_time_millis = RingtoneUtil.getRingtoneTimeMillis(alarm.hour, alarm.minute);
 
                 if (alarmId != -1) util.updateRecord(alarm);
-                else util.insertRecord(alarm);
+                else alarmId = util.insertRecord(alarm);
 
+                Intent intent = new Intent();
+                intent.putExtra(ALARM_ID, alarmId);
+                setResult(RESULT_OK, intent);
                 finish();
 
                 break;

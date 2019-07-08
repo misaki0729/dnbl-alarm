@@ -59,6 +59,7 @@ public class AlarmTableUtil {
             insertRecord.is_enable = item.is_enable;
             insertRecord.alarm_delay_time = item.alarm_delay_time;
             insertRecord.alarm_music_id_normal = item.alarm_music_id_normal;
+            insertRecord.alarm_set_time_millis = item.alarm_set_time_millis;
 
             insertRecord.save();
             ActiveAndroid.setTransactionSuccessful();
