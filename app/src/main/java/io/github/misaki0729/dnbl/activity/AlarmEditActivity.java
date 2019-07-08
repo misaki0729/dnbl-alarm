@@ -2,12 +2,15 @@ package io.github.misaki0729.dnbl.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TimePicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,11 +34,14 @@ import io.github.misaki0729.dnbl.fragment.CheckboxDialogFragment;
 import io.github.misaki0729.dnbl.fragment.DialogFragmentController;
 import io.github.misaki0729.dnbl.fragment.SelectDialogFragment;
 import io.github.misaki0729.dnbl.util.DateUtil;
+import io.github.misaki0729.dnbl.util.RingtoneUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
 public class AlarmEditActivity extends AppCompatActivity {
 
     public static final String ALARM_ID = "alarm_id";
+    public static final String URI = "URI";
+    private static final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     @BindView(R.id.alarm_time_picker)
     TimePicker timePicker;
@@ -53,6 +59,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     MaterialButton delay_alarm_time_button;
 
     private long alarmId = -1;
+    private Uri uri = null;
     private int settingDow[] = {1, 1, 1, 1, 1, 1, 1};
     private int settingDelayAlarmTime = 0;
     private int settingDelayAlarmTimeList[] = {0, 5, 10, 15, 20, 25, 30, 60};
@@ -92,21 +99,37 @@ public class AlarmEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_edit);
 
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
+
+        init(getIntent());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        init(getIntent());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        EventBus.getDefault().register(this);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_RINGTONE_PICKER) {
+            if (resultCode == RESULT_OK) {
+                uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+
+                if (uri != null) {
+                    alarm_music_button.setText(RingtoneUtil.getRingtoneTitle(uri));
+                }
+            }
+        }
+    }
+
 
     private void init(Intent intent) {
         alarmId = intent.getLongExtra(ALARM_ID, -1);
@@ -142,6 +165,9 @@ public class AlarmEditActivity extends AppCompatActivity {
 
         settingDelayAlarmTime = alarm.alarm_delay_time;
         delay_alarm_time_button.setText(DateUtil.getDelayTimeText(settingDelayAlarmTimeList[settingDelayAlarmTime]));
+
+        uri = Uri.parse(alarm.alarm_music_id_normal);
+        alarm_music_button.setText(RingtoneUtil.getRingtoneTitle(uri));
     }
 
     private void displayCheckDowDialog() {
@@ -189,6 +215,8 @@ public class AlarmEditActivity extends AppCompatActivity {
                 displaySelectDelayTimeDialog();
                 break;
             case R.id.setting_alarm_music:
+                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                startActivityForResult(intent, REQUEST_CODE_RINGTONE_PICKER);
                 break;
             default:
                 break;
@@ -215,7 +243,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 alarm.is_enable = true;
                 alarm.description = description;
                 alarm.alarm_delay_time = settingDelayAlarmTime;
-                alarm.alarm_music_id_normal = 0;
+                alarm.alarm_music_id_normal = uri.toString();
                 alarm.hour = timePicker.getCurrentHour();
                 alarm.minute = timePicker.getCurrentMinute();
                 alarm.dow = dow;

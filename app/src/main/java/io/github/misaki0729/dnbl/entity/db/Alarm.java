@@ -40,7 +40,7 @@ public class Alarm extends Model {
     public int alarm_delay_time;
 
     @Column(name = ALARM_MUSIC_ID_NORMAL, notNull = true)
-    public int alarm_music_id_normal;
+    public String alarm_music_id_normal;
 
     @Column(name = ALARM_MUSIC_ID_DELAY)
     public int alarm_music_id_delay;
