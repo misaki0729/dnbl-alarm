@@ -1,5 +1,6 @@
 package io.github.misaki0729.dnbl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,14 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.misaki0729.dnbl.activity.AlarmAddActivity;
 import io.github.misaki0729.dnbl.adapter.AlarmListItemAdapter;
 import io.github.misaki0729.dnbl.entity.AlarmListItem;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm_add:
+                Intent intent = new Intent(MainActivity.this, AlarmAddActivity.class);
+                startActivity(intent);
 
                 break;
         }

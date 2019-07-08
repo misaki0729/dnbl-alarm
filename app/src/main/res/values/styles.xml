@@ -8,6 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="FillEditText" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/colorBackgroundFillEditText</item>
+    </style>
+
+    <style name="OutlineButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/colorBackgroundFillEditText</item>
+        <item name="rippleColor">@color/rippleColor</item>
     </style>
 
 </resources>
