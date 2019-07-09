@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="10"
+        >
+
+        <TextView
+            android:id="@+id/subway_company_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="12dp"
+            android:textColor="@color/gray"
+            android:text="会社名" />
+
+        <TextView
+            android:id="@+id/subway_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_marginLeft="30dp"
+            android:textSize="16sp"
+            android:text="鉄道名" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/train_select_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_black_24dp"
+        android:visibility="invisible" />
+
+</LinearLayout>

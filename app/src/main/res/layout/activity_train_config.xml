@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".activity.TrainConfigActivity">
 
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:id="@+id/train_list" />
+
+    </LinearLayout>
 </LinearLayout>

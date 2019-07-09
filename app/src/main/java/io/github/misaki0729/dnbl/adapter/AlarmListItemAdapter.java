@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.checkbox.MaterialCheckBox;
-
 import java.util.List;
 
 import io.github.misaki0729.dnbl.R;
