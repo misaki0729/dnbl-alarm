@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'deploygate'
 
 android {
     compileSdkVersion 28
@@ -43,4 +44,9 @@ dependencies {
 
     implementation 'com.github.zagum:Android-SwitchIcon:1.4.0'
     implementation 'com.google.android.material:material:1.1.0-alpha07'
+}
+
+deploygate {
+    userName = "misaki0729"
+    token = "b68ce814b5bf74b7d72d95837243473efb1a93fb"
 }
