@@ -1,4 +1,4 @@
-package io.github.misaki0729.dnbl;
+package io.github.misaki0729.dnbl.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,20 +8,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.misaki0729.dnbl.activity.AlarmEditActivity;
-import io.github.misaki0729.dnbl.activity.TrainConfigActivity;
+import io.github.misaki0729.dnbl.R;
 import io.github.misaki0729.dnbl.adapter.AlarmListItemAdapter;
 import io.github.misaki0729.dnbl.entity.AlarmListItem;
+import io.github.misaki0729.dnbl.entity.SubwayDelayInfo;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
+import io.github.misaki0729.dnbl.network.SubwayDelay;
 import io.github.misaki0729.dnbl.util.RingtoneUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
+import rx.Observer;
 
 public class MainActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener {
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity
 
     ListView alarmList;
 
+    @BindView(R.id.debug_textview)
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,28 @@ public class MainActivity extends AppCompatActivity
         setTitle("アラーム一覧");
 
         ButterKnife.bind(this);
+
+        SubwayDelay delay = new SubwayDelay();
+        delay.setDelayInfo()
+                .subscribe(new Observer<List<SubwayDelayInfo.Info>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<SubwayDelayInfo.Info> infos) {
+                        String name = "";
+                        for (SubwayDelayInfo.Info info: infos)
+                            name += info.name + ", ";
+                        textView.setText(name);
+                    }
+                });
     }
 
     @Override

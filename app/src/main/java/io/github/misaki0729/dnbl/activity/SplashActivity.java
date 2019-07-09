@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import io.github.misaki0729.dnbl.MainActivity;
 import io.github.misaki0729.dnbl.R;
 
 public class SplashActivity extends AppCompatActivity {

@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import io.github.misaki0729.dnbl.MainActivity;
 import io.github.misaki0729.dnbl.activity.PlayAlarmActivity;
 
 public class AlarmReciever extends BroadcastReceiver {

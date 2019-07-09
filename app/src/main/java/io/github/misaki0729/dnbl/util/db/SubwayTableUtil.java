@@ -48,6 +48,26 @@ public class SubwayTableUtil {
         return item;
     }
 
+    public Subway getRecord(String name) {
+        Subway item = new Subway();
+
+        ActiveAndroid.beginTransaction();
+        try {
+            item = new Select()
+                    .from(Subway.class)
+                    .where(Subway.NAME + "= ?", name)
+                    .executeSingle();
+
+            ActiveAndroid.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ActiveAndroid.endTransaction();
+        }
+
+        return item;
+    }
+
     public void updateRecord(Subway item) {
         ActiveAndroid.beginTransaction();
         try {
