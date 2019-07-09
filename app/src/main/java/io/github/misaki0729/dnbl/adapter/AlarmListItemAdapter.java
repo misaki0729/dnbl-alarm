@@ -25,7 +25,7 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
     AlarmListItem data;
 
     class ViewHolder {
-        MaterialCheckBox isEnabled;
+        ImageView isEnabled;
         TextView hour;
         TextView minute;
         TextView description;
@@ -47,7 +47,7 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
             holder.description = (TextView) convertView.findViewById(R.id.alarm_description);
             holder.hour = (TextView) convertView.findViewById(R.id.alarm_hour);
             holder.minute = (TextView) convertView.findViewById(R.id.alarm_minute);
-            holder.isEnabled = (MaterialCheckBox) convertView.findViewById(R.id.alarm_is_enabled);
+            holder.isEnabled = (ImageView) convertView.findViewById(R.id.alarm_is_enabled);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -57,15 +57,28 @@ public class AlarmListItemAdapter extends ArrayAdapter<AlarmListItem> {
         holder.hour.setText(String.format("%02d", data.getHour()));
         holder.minute.setText(String.format("%02d", data.getMinute()));
         holder.description.setText(data.getDescription());
-        holder.isEnabled.setChecked(data.isEnabled());
 
-        holder.isEnabled.setOnCheckedChangeListener((view, isChecked) -> {
-            if (isChecked) {
-                Log.d("Adapter", "register");
-                RingtoneUtil.registerAlarm(data.getAlarmId());
-            } else {
+        if (data.isEnabled()) {
+            Log.d("Adapter", "register");
+            RingtoneUtil.unregister(data.getAlarmId());
+            holder.isEnabled.setImageDrawable(convertView.getResources().getDrawable(R.drawable.ic_alarm_off_black_24dp));
+        } else {
+            Log.d("Adapter", "unregister");
+            RingtoneUtil.registerAlarm(data.getAlarmId());
+            holder.isEnabled.setImageDrawable(convertView.getResources().getDrawable(R.drawable.ic_alarm_on_green_500_24dp));
+        }
+
+        holder.isEnabled.setOnClickListener(v -> {
+            if (data.isEnabled()) {
                 Log.d("Adapter", "unregister");
                 RingtoneUtil.unregister(data.getAlarmId());
+                data.setEnabled(false);
+                holder.isEnabled.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_alarm_off_black_24dp));
+            } else {
+                Log.d("Adapter", "register");
+                RingtoneUtil.registerAlarm(data.getAlarmId());
+                data.setEnabled(true);
+                holder.isEnabled.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_alarm_on_green_500_24dp));
             }
         });
 
