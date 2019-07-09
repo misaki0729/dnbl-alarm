@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import io.github.misaki0729.dnbl.activity.AlarmEditActivity;
+import io.github.misaki0729.dnbl.activity.TrainConfigActivity;
 import io.github.misaki0729.dnbl.adapter.AlarmListItemAdapter;
 import io.github.misaki0729.dnbl.entity.AlarmListItem;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
@@ -94,11 +95,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_alarm_add:
-                Intent intent = new Intent(MainActivity.this, AlarmEditActivity.class);
+                intent = new Intent(MainActivity.this, AlarmEditActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_EDIT_ALARM);
 
+                break;
+            case R.id.action_train_config:
+                intent = new Intent(MainActivity.this, TrainConfigActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
         return true;
