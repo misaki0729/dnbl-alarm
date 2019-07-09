@@ -5,6 +5,9 @@ jobs:
       # 現時点ではCircleCI公式で用意されているDockerイメージを使用している。
       - image: circleci/android:api-28
     #environment:
+    branches:
+        only:
+          - develop
     #  JVM_OPTS: -Xmx3200m    
     steps:
       - checkout
