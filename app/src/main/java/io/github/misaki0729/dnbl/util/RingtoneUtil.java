@@ -43,7 +43,7 @@ public class RingtoneUtil {
         // 複数のアラームを登録する場合はPendingIntent.getBroadcastの第二引数を変更する
         // 第二引数が同じで第四引数にFLAG_CANCEL_CURRENTがセットされている場合、2回以上呼び出されたときは
         // あとからのものが上書きされる
-        return PendingIntent.getBroadcast(ApplicationController.getsInstance().getApplicationContext(), (int) alarmId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(ApplicationController.getsInstance().getApplicationContext(), (int) alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static String getRingtoneTitle(Uri uri) {

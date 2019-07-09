@@ -236,12 +236,11 @@ public class AlarmEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        AlarmTableUtil util = new AlarmTableUtil();
+        Alarm alarm = alarmId == -1 ? new Alarm() : util.getRecord(alarmId);
+
         switch (item.getItemId()) {
             case R.id.action_alarm_add_done:
-                AlarmTableUtil util = new AlarmTableUtil();
-
-                Alarm alarm = alarmId == -1 ? new Alarm() : util.getRecord(alarmId);
-
                 String description = description_edit_text.getText().toString();
                 String dow = Arrays.toString(settingDow);
 
@@ -261,6 +260,15 @@ public class AlarmEditActivity extends AppCompatActivity {
                 finish();
 
                 break;
+            case R.id.action_alarm_delete:
+                if (alarmId == -1) {
+                    finish();
+                    break;
+                }
+
+                RingtoneUtil.unregister(alarmId);
+                util.deleteRecord(alarm);
+                finish();
         }
         return true;
     }
