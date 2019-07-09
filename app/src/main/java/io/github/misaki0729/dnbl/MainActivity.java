@@ -25,6 +25,7 @@ import io.github.misaki0729.dnbl.entity.AlarmListItem;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
 import io.github.misaki0729.dnbl.notification.AlarmReciever;
 import io.github.misaki0729.dnbl.util.ApplicationController;
+import io.github.misaki0729.dnbl.util.RingtoneUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
 public class MainActivity extends AppCompatActivity
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity
                 long alarmId = data.getLongExtra(AlarmEditActivity.ALARM_ID, -1);
                 if (alarmId != -1) {
                     Alarm alarm = new AlarmTableUtil().getRecord(alarmId);
-                    registerAlarm(alarmId);
+                    RingtoneUtil.registerAlarm(alarmId);
                     Log.d("SetAlarm", String.valueOf(alarm.alarm_set_time_millis));
                 }
             }
@@ -77,28 +78,6 @@ public class MainActivity extends AppCompatActivity
         alarmList.setAdapter(adapter);
     }
 
-    private void registerAlarm(long alarmId) {
-        Alarm alarm = new AlarmTableUtil().getRecord(alarmId);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getPendingIntent(alarmId);
-        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm.alarm_set_time_millis, null), pendingIntent);
-    }
-
-    private void unregister(long alarmId) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(getPendingIntent(alarmId));
-    }
-
-    private PendingIntent getPendingIntent(long alarmId) {
-        Intent intent = new Intent(this, AlarmReciever.class);
-        intent.setClass(this, AlarmReciever.class);
-        intent.putExtra(AlarmReciever.ALARM_ID, alarmId);
-        // 複数のアラームを登録する場合はPendingIntent.getBroadcastの第二引数を変更する
-        // 第二引数が同じで第四引数にFLAG_CANCEL_CURRENTがセットされている場合、2回以上呼び出されたときは
-        // あとからのものが上書きされる
-        return PendingIntent.getBroadcast(this, (int) alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

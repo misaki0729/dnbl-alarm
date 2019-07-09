@@ -245,14 +245,12 @@ public class AlarmEditActivity extends AppCompatActivity {
                 String description = description_edit_text.getText().toString();
                 String dow = Arrays.toString(settingDow);
 
-                alarm.is_enable = true;
                 alarm.description = description;
                 alarm.alarm_delay_time = settingDelayAlarmTime;
                 alarm.alarm_music_id_normal = uri.toString();
                 alarm.hour = timePicker.getCurrentHour();
                 alarm.minute = timePicker.getCurrentMinute();
                 alarm.dow = dow;
-                alarm.alarm_set_time_millis = RingtoneUtil.getRingtoneTimeMillis(alarm.hour, alarm.minute);
 
                 if (alarmId != -1) util.updateRecord(alarm);
                 else alarmId = util.insertRecord(alarm);

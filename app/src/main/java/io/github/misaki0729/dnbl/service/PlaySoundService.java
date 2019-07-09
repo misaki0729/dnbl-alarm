@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.io.IOException;
 
 import io.github.misaki0729.dnbl.entity.db.Alarm;
+import io.github.misaki0729.dnbl.util.RingtoneUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
 public class PlaySoundService extends Service implements MediaPlayer.OnCompletionListener {
@@ -23,7 +24,7 @@ public class PlaySoundService extends Service implements MediaPlayer.OnCompletio
     Alarm alarm;
     AlarmTableUtil util;
     MediaPlayer mediaPlayer;
-    float volume = 0.3f;
+    float volume = 0.6f;
 
     @Override
     public void onCreate() {

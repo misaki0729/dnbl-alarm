@@ -26,7 +26,7 @@ public class Alarm extends Model {
     public int minute;
 
     @Column(name = IS_ENABLE, notNull = true)
-    public boolean is_enable;
+    public boolean is_enable = false;
 
     @Column(name = DOW)
     public String dow;

@@ -58,6 +58,7 @@ public class PlayAlarmActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.stop:
                 stopService(new Intent(PlayAlarmActivity.this, PlaySoundService.class));
+                finish();
                 break;
             default:
                 break;
