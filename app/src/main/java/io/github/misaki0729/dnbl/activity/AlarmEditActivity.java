@@ -98,6 +98,8 @@ public class AlarmEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_edit);
 
+        setTitle("アラーム編集");
+
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 

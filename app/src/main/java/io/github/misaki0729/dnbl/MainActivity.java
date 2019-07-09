@@ -1,15 +1,11 @@
 package io.github.misaki0729.dnbl;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -23,8 +19,6 @@ import io.github.misaki0729.dnbl.activity.AlarmEditActivity;
 import io.github.misaki0729.dnbl.adapter.AlarmListItemAdapter;
 import io.github.misaki0729.dnbl.entity.AlarmListItem;
 import io.github.misaki0729.dnbl.entity.db.Alarm;
-import io.github.misaki0729.dnbl.notification.AlarmReciever;
-import io.github.misaki0729.dnbl.util.ApplicationController;
 import io.github.misaki0729.dnbl.util.RingtoneUtil;
 import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
 
@@ -39,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("アラーム一覧");
 
         ButterKnife.bind(this);
     }
