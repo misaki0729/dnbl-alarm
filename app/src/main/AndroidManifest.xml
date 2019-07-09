@@ -20,7 +20,9 @@
             android:name="AA_DB_VERSION"
             android:value="1" />
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,23 +31,27 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.TrainConfigActivity"
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.TrainConfigActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".activity.AlarmEditActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-
-        <activity android:name=".activity.PlayAlarmActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            android:screenOrientation="portrait" >
-        </activity>
+        <activity
+            android:name=".activity.AlarmEditActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.PlayAlarmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"></activity>
 
         <receiver android:name=".notification.AlarmReciever" />
 
-        <service android:name=".service.PlaySoundService"
+        <service
+            android:name=".service.PlaySoundService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
