@@ -1,6 +1,5 @@
 package io.github.misaki0729.dnbl.service;
 
-import android.app.AlarmManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -8,13 +7,21 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
 
+import io.github.misaki0729.dnbl.entity.db.Alarm;
+import io.github.misaki0729.dnbl.util.db.AlarmTableUtil;
+
 public class PlaySoundService extends Service implements MediaPlayer.OnCompletionListener {
 
+    public static final String ALARM_ID = "alarm_id";
+
+    Alarm alarm;
+    AlarmTableUtil util;
     MediaPlayer mediaPlayer;
     float volume = 0.3f;
 
@@ -26,6 +33,15 @@ public class PlaySoundService extends Service implements MediaPlayer.OnCompletio
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mediaPlayer = new MediaPlayer();
+        util = new AlarmTableUtil();
+
+        long alarmId = intent.getLongExtra(ALARM_ID, -1);
+        if (alarmId != -1) {
+            alarm = util.getRecord(alarmId);
+        }
+
+        Log.d("PlayService", "start");
+        play();
 
         return START_NOT_STICKY;
     }
@@ -33,7 +49,7 @@ public class PlaySoundService extends Service implements MediaPlayer.OnCompletio
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        stop();
     }
 
     @Nullable
@@ -57,7 +73,10 @@ public class PlaySoundService extends Service implements MediaPlayer.OnCompletio
     }
 
     private Uri getSound() {
-        return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarm != null)
+            return Uri.parse(alarm.alarm_music_id_normal);
+        else
+            return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
     }
 
     private void stop() {
@@ -65,6 +84,11 @@ public class PlaySoundService extends Service implements MediaPlayer.OnCompletio
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+
+        if (alarm != null) {
+            alarm.is_enable = false;
+            util.updateRecord(alarm);
         }
     }
 

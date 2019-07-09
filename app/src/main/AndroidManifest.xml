@@ -32,6 +32,9 @@
         <activity android:name=".activity.AlarmEditActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.PlayAlarmActivity"
+            android:screenOrientation="portrait" />
+
         <receiver android:name=".notification.AlarmReciever" />
 
         <service android:name=".service.PlaySoundService"
