@@ -7,4 +7,6 @@
 
     <color name="colorBackgroundFillEditText">#FFFFFF</color>
     <color name="rippleColor">#81C784</color>
+
+    <color name="alarm_normal_background">#D7CCC8</color>
 </resources>
